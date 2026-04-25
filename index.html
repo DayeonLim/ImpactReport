@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Camp Impact Report — TKA Coding Team</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,800;1,9..144,300;1,9..144,600;1,9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #0c0c0b;
+  --bg2: #161614;
+  --bg3: #1f1f1c;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #eeeae0;
+  --muted: rgba(238,234,224,0.48);
+  --muted2: rgba(238,234,224,0.24);
+  --accent: #6eb5ff;
+  --accent-dim: rgba(110,181,255,0.1);
+  --winter: #7db5f0;
+  --winter-dim: rgba(125,181,240,0.11);
+  --spring: #5ecfa3;
+  --spring-dim: rgba(94,207,163,0.11);
+  --coral: #f07b60;
+  --coral-dim: rgba(240,123,96,0.11);
+}
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--text); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; line-height: 1.6; }
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(12,12,11,0.92); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 48px; height: 54px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--winter); }
+.nav-links { display: flex; gap: 2px; list-style: none; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 6px 16px; border-radius: 100px; transition: all 0.15s; letter-spacing: 0.01em; }
+.nav-links a:hover, .nav-links a.active { color: var(--text); background: var(--bg3); }
+@media (max-width: 720px) { .nav-links { display: none; } nav { padding: 0 24px; } }
+
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 130px 64px 80px;
+  position: relative; overflow: hidden; border-bottom: 1px solid var(--border);
+}
+.hero-watermark {
+  position: absolute; right: -60px; top: 50%; transform: translateY(-52%);
+  font-family: 'Fraunces', serif; font-size: clamp(180px, 24vw, 360px);
+  font-weight: 800; font-style: italic; color: rgba(255,255,255,0.018);
+  line-height: 1; pointer-events: none; user-select: none; white-space: nowrap;
+}
+.hero-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--winter); margin-bottom: 22px; display: flex; align-items: center; gap: 12px; }
+.hero-tag::before { content: ''; width: 32px; height: 1px; background: var(--winter); }
+.hero h1 { font-family: 'Fraunces', serif; font-size: clamp(60px, 9vw, 120px); font-weight: 800; line-height: 0.92; letter-spacing: -0.025em; margin-bottom: 30px; }
+.hero h1 em { font-style: italic; color: var(--winter); font-weight: 300; }
+.hero-sub { font-size: 16px; color: var(--muted); max-width: 520px; line-height: 1.7; margin-bottom: 60px; }
+.hero-stats { display: flex; gap: 0; border: 1px solid var(--border2); border-radius: 16px; overflow: hidden; width: fit-content; }
+.hstat { padding: 24px 40px; border-right: 1px solid var(--border2); text-align: center; }
+.hstat:last-child { border-right: none; }
+.hstat-num { font-family: 'Fraunces', serif; font-size: 50px; font-weight: 800; color: var(--text); display: block; line-height: 1; }
+.hstat-num em { font-style: normal; color: var(--winter); }
+.hstat-lbl { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 8px; }
+@media (max-width: 640px) { .hero { padding: 110px 28px 60px; } .hero-stats { flex-wrap: wrap; } .hstat { flex: 1 1 45%; } }
+
+.section { max-width: 1060px; margin: 0 auto; padding: 88px 48px; }
+.eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--winter); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--winter); }
+h2.sec { font-family: 'Fraunces', serif; font-size: clamp(34px, 4.5vw, 58px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 48px; }
+h2.sec em { font-style: italic; color: var(--winter); font-weight: 300; }
+.divider { width: 100%; height: 1px; background: var(--border); }
+
+.camp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 700px) { .camp-grid { grid-template-columns: 1fr; } }
+.camp-card { background: var(--bg2); border: 1px solid var(--border2); border-radius: 20px; padding: 34px; position: relative; overflow: hidden; }
+.cc-top { height: 3px; position: absolute; top: 0; left: 0; right: 0; }
+.winter .cc-top { background: linear-gradient(90deg, var(--winter), rgba(125,181,240,0.2)); }
+.spring .cc-top { background: linear-gradient(90deg, var(--spring), rgba(94,207,163,0.2)); }
+.camp-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 13px; border-radius: 100px; margin-bottom: 18px; }
+.winter .camp-badge { background: var(--winter-dim); color: var(--winter); border: 1px solid rgba(125,181,240,0.2); }
+.spring .camp-badge { background: var(--spring-dim); color: var(--spring); border: 1px solid rgba(94,207,163,0.2); }
+.camp-card h3 { font-family: 'Fraunces', serif; font-size: 24px; margin-bottom: 24px; color: var(--text); font-weight: 600; }
+.info-row { display: flex; gap: 10px; margin-bottom: 10px; font-size: 14px; color: var(--muted); line-height: 1.5; }
+.info-row strong { color: var(--text); }
+.camp-note { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); line-height: 1.7; }
+.camp-note strong { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted2); display: block; margin-bottom: 6px; }
+
+.pull-banner { background: var(--winter); padding: 68px 64px; display: flex; align-items: center; gap: 52px; overflow: hidden; position: relative; }
+.pull-banner::after { content: '"'; position: absolute; right: 30px; top: -40px; font-family: 'Fraunces', serif; font-size: 300px; font-style: italic; color: rgba(0,0,0,0.07); line-height: 1; pointer-events: none; }
+.pb-num { font-family: 'Fraunces', serif; font-size: clamp(80px,12vw,148px); font-weight: 800; color: rgba(0,0,0,0.85); line-height: 1; letter-spacing: -0.03em; flex-shrink: 0; }
+.pb-text { color: rgba(0,0,0,0.7); font-size: 18px; line-height: 1.65; max-width: 460px; font-weight: 500; }
+.pb-text strong { color: rgba(0,0,0,0.9); }
+@media (max-width: 640px) { .pull-banner { flex-direction: column; gap: 20px; padding: 48px 28px; } }
+
+.metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 52px; }
+@media (max-width: 800px) { .metrics-row { grid-template-columns: repeat(2, 1fr); } }
+.mcard { background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; padding: 26px 20px; text-align: center; position: relative; overflow: hidden; transition: border-color 0.2s; }
+.mcard:hover { border-color: rgba(255,255,255,0.2); }
+.mcard::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; }
+.mcard.win2::before { background: var(--winter); }
+.mcard.spr::before { background: var(--spring); }
+.mcard.cor::before { background: var(--coral); }
+.mcard.blu::before { background: var(--accent); }
+.mnum { font-family: 'Fraunces', serif; font-size: 46px; font-weight: 800; display: block; line-height: 1; margin-bottom: 8px; }
+.mcard.win2 .mnum { color: var(--winter); }
+.mcard.spr .mnum { color: var(--spring); }
+.mcard.cor .mnum { color: var(--coral); }
+.mcard.blu .mnum { color: var(--accent); }
+.mlabel { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; line-height: 1.5; font-family: 'JetBrains Mono', monospace; }
+.msub { font-size: 11px; color: var(--muted2); margin-top: 5px; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+@media (max-width: 660px) { .two-col { grid-template-columns: 1fr; } }
+.col-header { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 26px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.col-header.wh { color: var(--winter); }
+.col-header.sh { color: var(--spring); }
+.bar-group { margin-bottom: 22px; }
+.bar-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
+.bar-label { font-size: 14px; font-weight: 600; color: rgba(238,234,224,0.88); }
+.bar-val-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
+.bar-track { height: 7px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; margin-bottom: 4px; }
+.bar-fill { height: 100%; border-radius: 100px; }
+.bf-before { background: rgba(255,255,255,0.14); }
+.bf-winter { background: var(--winter); }
+.bf-spring { background: var(--spring); }
+.bf-coral { background: var(--coral); }
+.bf-blue { background: var(--accent); }
+.bar-sub { font-size: 10px; color: var(--muted2); }
+
+.insight-single { background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; padding: 28px 32px; margin-top: 48px; display: flex; gap: 20px; align-items: flex-start; }
+.ins-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.ins-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600; margin-bottom: 8px; color: var(--text); }
+.ins-body { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+.quotes-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 700px) { .quotes-row { grid-template-columns: 1fr; } }
+.qcard { background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; padding: 28px 26px 22px; }
+.qmark { font-family: 'Fraunces', serif; font-size: 60px; font-style: italic; color: var(--winter); opacity: 0.28; display: block; line-height: 0.7; margin-bottom: 14px; }
+.qtext { font-size: 15px; color: rgba(238,234,224,0.82); line-height: 1.7; font-style: italic; }
+.qsrc { margin-top: 16px; display: flex; align-items: center; gap: 8px; }
+.qdot { width: 7px; height: 7px; border-radius: 50%; }
+.dw { background: var(--winter); }
+.ds { background: var(--spring); }
+.qcamp-text { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: var(--muted); }
+
+.demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+@media (max-width: 640px) { .demo-grid { grid-template-columns: 1fr; } }
+.dcard { background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; padding: 30px; }
+.dcard-title { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted2); margin-bottom: 22px; }
+.gender-row2 { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.g-label { width: 54px; font-size: 14px; font-weight: 600; color: var(--text); flex-shrink: 0; }
+.g-track { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 100px; overflow: hidden; }
+.g-fill { height: 100%; border-radius: 100px; }
+.gm { background: var(--winter); }
+.gf { background: var(--coral); }
+.g-pct { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); width: 36px; text-align: right; flex-shrink: 0; }
+.exp-item { margin-bottom: 15px; }
+.exp-top2 { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 6px; }
+.exp-top2 strong { color: rgba(238,234,224,0.82); }
+.exp-top2 span { font-family: 'JetBrains Mono', monospace; color: var(--muted); font-size: 11px; }
+
+.school-wrap { background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px; padding: 30px; margin-top: 18px; }
+.tag-cloud { display: flex; flex-wrap: wrap; gap: 9px; }
+.school-tag { background: var(--spring-dim); border: 1px solid rgba(94,207,163,0.15); color: var(--spring); font-size: 12px; padding: 6px 14px; border-radius: 100px; font-weight: 600; }
+
+.topic-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+.ttag { padding: 9px 20px; border-radius: 100px; font-size: 14px; font-weight: 600; cursor: default; transition: transform 0.14s; }
+.ttag:hover { transform: scale(1.04); }
+.tt1 { background: rgba(125,181,240,0.13); color: var(--winter); border: 1px solid rgba(125,181,240,0.2); font-size: 17px; }
+.tt2 { background: rgba(94,207,163,0.12); color: var(--spring); border: 1px solid rgba(94,207,163,0.18); font-size: 15px; }
+.tt3 { background: rgba(110,181,255,0.1); color: var(--accent); border: 1px solid rgba(110,181,255,0.15); }
+.tt4 { background: rgba(240,123,96,0.1); color: var(--coral); border: 1px solid rgba(240,123,96,0.15); }
+.tt5 { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); font-size: 12px; }
+
+.people-bg { background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.org-card { display: inline-flex; align-items: center; gap: 18px; background: var(--winter); border-radius: 14px; padding: 18px 26px; margin-bottom: 44px; }
+.org-av { width: 46px; height: 46px; border-radius: 50%; background: rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--bg); font-weight: 500; flex-shrink: 0; }
+.org-role { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.5); margin-bottom: 3px; }
+.org-name { font-size: 17px; font-weight: 700; color: rgba(0,0,0,0.88); }
+.camp-group2 { margin-bottom: 36px; }
+.cg-head { display: flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted2); margin-bottom: 16px; }
+.cg-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.teacher-flex { display: flex; flex-wrap: wrap; gap: 8px; }
+.tchip { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--border2); border-radius: 100px; padding: 8px 16px 8px 10px; transition: background 0.14s; }
+.tchip:hover { background: rgba(255,255,255,0.08); }
+.tav { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 8px; font-weight: 500; color: var(--text); flex-shrink: 0; }
+.av-w { background: rgba(125,181,240,0.28); }
+.av-s { background: rgba(94,207,163,0.28); }
+.av-b { background: rgba(110,181,255,0.22); }
+.tname { font-size: 13px; color: rgba(238,234,224,0.85); font-weight: 500; }
+
+footer { background: var(--bg); border-top: 1px solid var(--border); padding: 36px 64px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-brand { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 600; color: var(--text); }
+.footer-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted2); letter-spacing: 0.06em; line-height: 1.9; text-align: right; }
+
+.fi { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.fi.v { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">TKA · Python Camps</div>
+  <ul class="nav-links">
+    <li><a href="#programs">Programs</a></li>
+    <li><a href="#impact">Impact</a></li>
+    <li><a href="#voices">Voices</a></li>
+    <li><a href="#demographics">Who We Reached</a></li>
+    <li><a href="#people">Team</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-watermark">Python</div>
+  <p class="hero-tag">The King's Academy Coding Team · 2025–2026</p>
+  <h1>Python Camp<br><em>Impact Report</em></h1>
+  <p class="hero-sub">Two free virtual Python camps for middle schoolers — taught entirely by student leaders from The King's Academy. Organized by Dayeon Lim.</p>
+  <div class="hero-stats">
+    <div class="hstat"><span class="hstat-num">93</span><div class="hstat-lbl">Students Served</div></div>
+    <div class="hstat"><span class="hstat-num"><em>12</em></span><div class="hstat-lbl">HS Instructors</div></div>
+    <div class="hstat"><span class="hstat-num">35</span><div class="hstat-lbl">Hours of Instruction</div></div>
+    <div class="hstat"><span class="hstat-num"><em>$0</em></span><div class="hstat-lbl">Cost to Students</div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<section id="programs" class="section">
+  <p class="eyebrow fi">The Programs</p>
+  <h2 class="sec fi">Two camps, <em>one team.</em></h2>
+  <div class="camp-grid fi">
+    <div class="camp-card winter">
+      <div class="cc-top"></div>
+      <span class="camp-badge">❄️ Winter Camp</span>
+      <h3>JH Python Winter Camp</h3>
+      <div class="info-row"><span>📅</span><span><strong>Dec 29, 2025 – Jan 2, 2026</strong> · Mon–Fri</span></div>
+      <div class="info-row"><span>⏰</span><span>4 time slots: <strong>9–10am · 10–11am · 2–3pm · 8–9pm</strong></span></div>
+      <div class="info-row"><span>👥</span><span><strong>12 students/class</strong> · Zoom · Free · Grades 6–8</span></div>
+      <div class="info-row"><span>📋</span><span><strong>48 registered</strong> · 43 pre · 40 post survey responses</span></div>
+      <div class="info-row"><span>🏫</span><span>Students from <strong>The King's Academy</strong></span></div>
+      <div class="camp-note"><strong>Student Instructors</strong>Ethan Zhao · Moyin Sholiyi · Cathy Tang · Katelyn Fan · Alina Yang · Isabel Zheng · Astha Chandra · Logan Chan · Elliot Chu · Matthew Chang</div>
+    </div>
+    <div class="camp-card spring">
+      <div class="cc-top"></div>
+      <span class="camp-badge">🌸 Spring Camp</span>
+      <h3>MS Python Spring Camp</h3>
+      <div class="info-row"><span>📅</span><span><strong>Mar 30 – Apr 3, 2026</strong> · Mon–Fri</span></div>
+      <div class="info-row"><span>⏰</span><span>3 evening slots: <strong>7–8pm · 8–9pm · 9–10pm</strong></span></div>
+      <div class="info-row"><span>👥</span><span><strong>15 students/class</strong> · Zoom · Free · Grades 6–8</span></div>
+      <div class="info-row"><span>📋</span><span><strong>45 registered</strong> · 23 pre · 16 post survey responses</span></div>
+      <div class="info-row"><span>🏫</span><span>Students from <strong>12 Bay Area schools</strong></span></div>
+      <div class="camp-note"><strong>Student Instructors</strong>Eric Aranjo · Alina Yang · Astha Chandra · Isabel Zheng</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<div class="pull-banner">
+  <div class="pb-num">97.5%</div>
+  <div class="pb-text">of <strong>Winter Camp students</strong> reported improving in at least one skill — coding, problem-solving, or confidence — across <strong>35 hours of free instruction</strong> by high school student teachers.</div>
+</div>
+
+<section id="impact" class="section">
+  <p class="eyebrow fi">Measurable Impact</p>
+  <h2 class="sec fi">The <em>numbers.</em></h2>
+  <div class="metrics-row fi">
+    <div class="mcard win2"><span class="mnum">+40%</span><div class="mlabel">Confidence Boost</div><div class="msub">2.67 → 3.75 / 5 avg (both camps)</div></div>
+    <div class="mcard spr"><span class="mnum">87.5%</span><div class="mlabel">Rated Helpful (Spring)</div><div class="msub">Gave 4 or 5 out of 5</div></div>
+    <div class="mcard blu"><span class="mnum">90%</span><div class="mlabel">Can Write a Loop</div><div class="msub">Winter · up from 42% before</div></div>
+    <div class="mcard cor"><span class="mnum">93.8%</span><div class="mlabel">Want More Coding</div><div class="msub">Spring students rated 4–5/5</div></div>
+  </div>
+  <div class="two-col fi">
+    <div>
+      <div class="col-header wh">❄️ Winter Camp · Skill Changes</div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Python Confidence</span><span class="bar-val-text">2.67 → 3.75 / 5</span></div>
+        <div class="bar-track"><div class="bar-fill bf-before" style="width:53%"></div></div>
+        <div class="bar-track" style="margin-top:4px"><div class="bar-fill bf-winter" style="width:75%"></div></div>
+        <div class="bar-sub" style="margin-top:4px">Before (dim) · After (blue)</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Loops &amp; Conditionals</span><span class="bar-val-text">2.40 → 3.58 / 5</span></div>
+        <div class="bar-track"><div class="bar-fill bf-before" style="width:48%"></div></div>
+        <div class="bar-track" style="margin-top:4px"><div class="bar-fill bf-winter" style="width:71.6%"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Interest in Programming</span><span class="bar-val-text">3.60 → 3.88 / 5</span></div>
+        <div class="bar-track"><div class="bar-fill bf-before" style="width:72%"></div></div>
+        <div class="bar-track" style="margin-top:4px"><div class="bar-fill bf-winter" style="width:77.6%"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Can write a loop</span><span class="bar-val-text">42% → 90%</span></div>
+        <div class="bar-track"><div class="bar-fill bf-before" style="width:42%"></div></div>
+        <div class="bar-track" style="margin-top:4px"><div class="bar-fill bf-winter" style="width:90%"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Can use lists in Python</span><span class="bar-val-text">12% → 90%</span></div>
+        <div class="bar-track"><div class="bar-fill bf-before" style="width:12%"></div></div>
+        <div class="bar-track" style="margin-top:4px"><div class="bar-fill bf-winter" style="width:90%"></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="col-header sh">🌸 Spring Camp · Skill Changes</div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Python Confidence</span><span class="bar-val-text">2.70 → 3.75 / 5</span></div>
+        <div class="bar-track"><div class="bar-fill bf-before" style="width:54%"></div></div>
+        <div class="bar-track" style="margin-top:4px"><div class="bar-fill bf-spring" style="width:75%"></div></div>
+        <div class="bar-sub" style="margin-top:4px">Before (dim) · After (green)</div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Interest in Programming</span><span class="bar-val-text">4.00 → 4.38 / 5</span></div>
+        <div class="bar-track"><div class="bar-fill bf-before" style="width:80%"></div></div>
+        <div class="bar-track" style="margin-top:4px"><div class="bar-fill bf-spring" style="width:87.6%"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Rated camp helpful (4–5/5)</span><span class="bar-val-text">87.5%</span></div>
+        <div class="bar-track"><div class="bar-fill bf-spring" style="width:87.5%"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Want more coding (4–5/5)</span><span class="bar-val-text">93.8%</span></div>
+        <div class="bar-track"><div class="bar-fill bf-spring" style="width:93.8%"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-meta"><span class="bar-label">Rated enjoyable (4–5/5)</span><span class="bar-val-text">75%</span></div>
+        <div class="bar-track"><div class="bar-fill bf-spring" style="width:75%"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="insight-single fi">
+    <span class="ins-icon">📈</span>
+    <div>
+      <div class="ins-title">Confidence nearly doubled for low-confidence students</div>
+      <div class="ins-body">44% of students entered with low confidence (1–2/5). By the end, nearly all had moved to a 3 or higher — showing the biggest gains from the students who needed it most.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="voices" class="section">
+  <p class="eyebrow fi">Student Voices</p>
+  <h2 class="sec fi">In their <em>words.</em></h2>
+  <div class="quotes-row fi">
+    <div class="qcard"><span class="qmark">"</span><p class="qtext">Make this camp LONGER! This is an amazing camp for new learners of Python.</p><div class="qsrc"><div class="qdot ds"></div><span class="qcamp-text">Spring Camp · 7–8pm</span></div></div>
+    <div class="qcard"><span class="qmark">"</span><p class="qtext">I never learned about lists before and now I know how to do them!</p><div class="qsrc"><div class="qdot dw"></div><span class="qcamp-text">Winter Camp · 2–3pm</span></div></div>
+    <div class="qcard"><span class="qmark">"</span><p class="qtext">I learned a lot in this class and I wish to continue learning programming.</p><div class="qsrc"><div class="qdot ds"></div><span class="qcamp-text">Spring Camp · 8–9pm</span></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="demographics" class="section">
+  <p class="eyebrow fi">Who We Reached</p>
+  <h2 class="sec fi"><em>Demographics</em> &amp; Backgrounds</h2>
+  <div class="demo-grid fi">
+    <div class="dcard">
+      <p class="dcard-title">Gender — Both Camps Combined (n=66 pre-survey responses)</p>
+      <div class="gender-row2"><span class="g-label">Male</span><div class="g-track"><div class="g-fill gm" style="width:74.2%"></div></div><span class="g-pct">74%</span></div>
+      <div class="gender-row2"><span class="g-label">Female</span><div class="g-track"><div class="g-fill gf" style="width:25.8%"></div></div><span class="g-pct">26%</span></div>
+      <p style="font-size:13px;color:var(--muted);margin-top:18px;line-height:1.65;">The gender gap reflects a broader challenge in CS education. Increasing female participation is a key goal for future camps.</p>
+    </div>
+    <div class="dcard">
+      <p class="dcard-title">Prior Coding Experience — Both Camps</p>
+      <div class="exp-item"><div class="exp-top2"><strong>Complete beginners (1/5)</strong><span>~14%</span></div><div class="bar-track"><div class="bar-fill bf-coral" style="width:14%"></div></div></div>
+      <div class="exp-item"><div class="exp-top2"><strong>Some exposure (2/5)</strong><span>~30%</span></div><div class="bar-track"><div class="bar-fill bf-coral" style="width:30%"></div></div></div>
+      <div class="exp-item"><div class="exp-top2"><strong>Basic knowledge (3/5)</strong><span>~40%</span></div><div class="bar-track"><div class="bar-fill bf-coral" style="width:40%"></div></div></div>
+      <div class="exp-item"><div class="exp-top2"><strong>Experienced (4–5/5)</strong><span>~16%</span></div><div class="bar-track"><div class="bar-fill bf-blue" style="width:16%"></div></div></div>
+      <p style="font-size:13px;color:var(--muted);margin-top:16px;line-height:1.65;">84% had limited or no coding experience before camp. The camps truly served beginners.</p>
+    </div>
+  </div>
+  <div class="school-wrap fi">
+    <p class="dcard-title">Spring Camp — 12 Bay Area Schools Represented</p>
+    <div class="tag-cloud">
+      <span class="school-tag">Rancho Milpitas MS</span><span class="school-tag">Joaquin Miller MS</span><span class="school-tag">Warren E. Hyde MS</span><span class="school-tag">Marian A. Peterson MS</span><span class="school-tag">Sam H. Lawson MS</span><span class="school-tag">Cupertino MS</span><span class="school-tag">Redwood MS</span><span class="school-tag">Rancho Pico JH</span><span class="school-tag">Stratford School</span><span class="school-tag">Ida Price Charter MS</span><span class="school-tag">Millikin Elementary</span><span class="school-tag">John Sinnott Elem</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <p class="eyebrow fi">What Resonated</p>
+  <h2 class="sec fi">Favorite Topics <em>Learned</em></h2>
+  <div class="topic-cloud fi">
+    <span class="ttag tt1">🔁 Lists &amp; List Manipulation</span>
+    <span class="ttag tt2">🔄 Loops (for / while)</span>
+    <span class="ttag tt3">✅ If / Elif / Else</span>
+    <span class="ttag tt4">⌨️ User Input</span>
+    <span class="ttag tt5">🖨️ Print &amp; Strings</span>
+    <span class="ttag tt3">📖 Boolean Logic</span>
+    <span class="ttag tt2">🎮 Building Games</span>
+    <span class="ttag tt4">📚 Dictionaries</span>
+    <span class="ttag tt5">✂️ Slicing</span>
+    <span class="ttag tt1">🧩 Functions</span>
+  </div>
+  <p style="font-size:12px;color:var(--muted2);margin-top:20px;font-family:'JetBrains Mono',monospace;letter-spacing:0.06em;">Based on open-ended responses · size indicates frequency mentioned</p>
+</section>
+
+<div class="people-bg" id="people">
+  <div class="section">
+    <p class="eyebrow fi">The People</p>
+    <h2 class="sec fi">Our Student <em>Teachers</em></h2>
+    <p style="font-size:15px;color:var(--muted);margin-top:-36px;margin-bottom:44px;" class="fi">Every class was led by trained student leaders from The King's Academy Coding Team.</p>
+    <div class="org-card fi">
+      <div class="org-av">DL</div>
+      <div><div class="org-role">Program Organizer</div><div class="org-name">Dayeon Lim</div></div>
+    </div>
+    <div class="camp-group2 fi">
+      <div class="cg-head">❄️ Winter Camp</div>
+      <div class="teacher-flex">
+        <div class="tchip"><div class="tav av-w">EZ</div><span class="tname">Ethan Zhao</span></div>
+        <div class="tchip"><div class="tav av-w">MS</div><span class="tname">Moyin Sholiyi</span></div>
+        <div class="tchip"><div class="tav av-w">CT</div><span class="tname">Cathy Tang</span></div>
+        <div class="tchip"><div class="tav av-w">KF</div><span class="tname">Katelyn Fan</span></div>
+        <div class="tchip"><div class="tav av-b">AY</div><span class="tname">Alina Yang ★</span></div>
+        <div class="tchip"><div class="tav av-b">IZ</div><span class="tname">Isabel Zheng ★</span></div>
+        <div class="tchip"><div class="tav av-b">AC</div><span class="tname">Astha Chandra ★</span></div>
+        <div class="tchip"><div class="tav av-w">LC</div><span class="tname">Logan Chan</span></div>
+        <div class="tchip"><div class="tav av-w">EC</div><span class="tname">Elliot Chu</span></div>
+        <div class="tchip"><div class="tav av-w">MC</div><span class="tname">Matthew Chang</span></div>
+      </div>
+    </div>
+    <div class="camp-group2 fi">
+      <div class="cg-head">🌸 Spring Camp</div>
+      <div class="teacher-flex">
+        <div class="tchip"><div class="tav av-s">EA</div><span class="tname">Eric Aranjo</span></div>
+        <div class="tchip"><div class="tav av-b">AY</div><span class="tname">Alina Yang ★</span></div>
+        <div class="tchip"><div class="tav av-b">AC</div><span class="tname">Astha Chandra ★</span></div>
+        <div class="tchip"><div class="tav av-b">IZ</div><span class="tname">Isabel Zheng ★</span></div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:var(--muted2);font-family:'JetBrains Mono',monospace;letter-spacing:0.06em;margin-top:10px;" class="fi">★ Alina Yang, Isabel Zheng &amp; Astha Chandra taught in both camps.</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">The King's Academy Coding Team</div>
+  <div class="footer-meta">
+    JH Python Winter Camp (Dec 2025) · MS Python Spring Camp (Apr 2026)<br>
+    43 pre + 40 post (Winter) · 23 pre + 16 post (Spring) · 93 total registered
+  </div>
+</footer>
+
+<script>
+const sections = ['programs','impact','voices','demographics','people'];
+const links = {};
+sections.forEach(id => {
+  const el = document.querySelector(`a[href="#${id}"]`);
+  if (el) links[id] = el;
+});
+const spy = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting && links[e.target.id]) {
+      Object.values(links).forEach(l => l.classList.remove('active'));
+      links[e.target.id].classList.add('active');
+    }
+  });
+}, { rootMargin: '-40% 0px -55% 0px' });
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) spy.observe(el);
+});
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('v'); });
+}, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.fi').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
